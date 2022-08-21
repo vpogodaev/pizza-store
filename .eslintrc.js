@@ -37,5 +37,7 @@ module.exports = {
     'react/no-array-index-key': 'warn',
     '@typescript-eslint/ban-types': 'warn',
     'arrow-body-style': 'warn',
+    'jsx-a11y/label-has-associated-control': 'warn',
+    'jsx-a11y/anchor-is-valid': 'warn',
   },
 };

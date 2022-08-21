@@ -1,0 +1,25 @@
+.content__ingredients {
+  width: 527px;
+  margin-top: 15px;
+  margin-right: auto;
+  margin-bottom: 15px;
+}
+
+.ingredients__list {
+  @include clear-list;
+
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.ingredients__filling {
+  width: 100%;
+
+  p {
+    @include r-s16-h19;
+
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+}

@@ -1,0 +1,60 @@
+.content__pizza {
+  width: 373px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.content__constructor {
+  width: 315px;
+  margin-top: 25px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.pizza {
+  position: relative;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 100%;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+
+  &--foundation--big-creamy {
+    background-image: url("../../../../app/assets/img/foundation/big-creamy.svg");
+  }
+
+  &--foundation--big-tomato {
+    background-image: url("../../../../app/assets/img/foundation/big-tomato.svg");
+  }
+
+  &--foundation--small-creamy {
+    background-image: url("../../../../app/assets/img/foundation/small-creamy.svg");
+  }
+
+  &--foundation--small-tomato {
+    background-image: url("../../../../app/assets/img/foundation/small-tomato.svg");
+  }
+}
+
+.content__result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 25px;
+
+  p {
+    @include b-s24-h28;
+
+    margin: 0;
+  }
+
+  button {
+    margin-left: 12px;
+    padding: 16px 45px;
+  }
+}
