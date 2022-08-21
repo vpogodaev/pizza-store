@@ -42,7 +42,7 @@ export const Fillings: FC<FillingsProps> = ({ ingredients }) => {
         />
       );
     });
-  }, ingredients);
+  }, [ingredients]);
 
   return <div className={style.pizza__wrapper}>{ingredientsToRender}</div>;
 };

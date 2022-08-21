@@ -1,0 +1,10 @@
+.cart-form__input {
+  flex-grow: 1;
+
+  margin-bottom: 20px;
+  margin-left: 16px;
+
+  &--small {
+    max-width: 120px;
+  }
+}

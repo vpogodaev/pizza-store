@@ -9,6 +9,7 @@ type CounterProps = {
   extraClassName: string;
   minusDisabled?: boolean;
   plusDisabled?: boolean;
+  color?: 'orange';
 };
 
 export const Counter: FC<CounterProps> = ({
@@ -19,10 +20,11 @@ export const Counter: FC<CounterProps> = ({
   extraClassName,
   minusDisabled,
   plusDisabled,
+  color,
 }) => {
   return (
     <div
-      className={`${style.counter} ${style['counter--orange']}${
+      className={`${style.counter}${
         extraClassName ? ` ${extraClassName}` : ''
       }`}
     >
@@ -43,7 +45,9 @@ export const Counter: FC<CounterProps> = ({
       />
       <button
         type="button"
-        className={`${style.counter__button} ${style['counter__button--plus']}`}
+        className={`${style.counter__button} ${style['counter__button--plus']}${
+          color ? ` ${style[`counter__button--${color}`]}` : ''
+        }`}
         disabled={plusDisabled}
         onClick={onPlusClicked}
       >

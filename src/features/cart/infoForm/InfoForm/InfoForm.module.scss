@@ -1,0 +1,16 @@
+.cart-form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cart-form__select {
+  display: flex;
+  align-items: center;
+
+  margin-right: auto;
+
+  span {
+    margin-right: 16px;
+  }
+}

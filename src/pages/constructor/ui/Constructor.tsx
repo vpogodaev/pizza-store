@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
-import { DoughCard } from '@features/constructor/dough/DoughCard/DoughCard';
-import { SizeCard } from '@features/constructor/size/SizeCard/SizeCard';
-import { IngredientsCard } from '@features/constructor/ingredients/IngredientsCard/IngredientsCard';
-import { Pizza } from '@features/constructor/pizza/Pizza/Pizza';
+import { DoughCard, IngredientsCard, Pizza, SizeCard } from '@features/constructor';
 import style from './Constructor.module.scss';
 
 type ConstructorProps = {};

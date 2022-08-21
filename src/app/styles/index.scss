@@ -1,0 +1,19 @@
+// general
+@import 'libs/normalize';
+@import 'fonts';
+@import 'mixins/mixins';
+@import 'ds-system/ds-styles';
+@import 'visually-hidden';
+@import 'scaffolding';
+
+// blocks
+@import 'blocks/content';
+@import 'blocks/title';
+@import 'blocks/button';
+@import 'blocks/logo';
+@import 'blocks/select';
+
+// layouts
+@import 'layout/container';
+
+

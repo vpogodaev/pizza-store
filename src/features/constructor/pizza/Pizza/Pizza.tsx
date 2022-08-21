@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Fillings } from '@features/constructor/pizza/Fillings/Fillings';
-import { TextBox } from '@shared/ui/textBox/TextBox';
+import { TextBox } from '@shared/ui';
 import style from './Pizza.module.scss';
 
 type PizzaProps = {};
@@ -23,6 +23,7 @@ export const Pizza: FC<PizzaProps> = ({}) => {
         placeholder="Введите название пиццы"
         title="Название пиццы"
         onChange={handleNameChange}
+        hideTitle
       />
 
       <div className={style.content__constructor}>

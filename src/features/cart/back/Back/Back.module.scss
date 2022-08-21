@@ -1,0 +1,15 @@
+.footer__more {
+  width: 220px;
+  margin-right: 16px;
+
+  a {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+.footer__text {
+  @include l-s11-h13;
+
+  color: rgba($black, 0.5);
+}

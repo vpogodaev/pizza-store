@@ -7,6 +7,9 @@ type TextBoxProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
   name?: string;
   placeholder?: string;
+  hideTitle?: boolean;
+  labelClassName?: string;
+  bigLabel?: boolean;
 };
 
 export const TextBox: FC<TextBoxProps> = ({
@@ -15,10 +18,17 @@ export const TextBox: FC<TextBoxProps> = ({
   name,
   onChange,
   placeholder,
+  hideTitle,
+  labelClassName,
+  bigLabel,
 }) => {
   return (
-    <label className={style.input}>
-      <span className="visually-hidden">{title}</span>
+    <label
+      className={`${style.input}${bigLabel ? ` ${style['input--big-label']}` : ''}${
+        labelClassName ? ` ${labelClassName}` : ''
+      }`}
+    >
+      <span className={hideTitle ? 'visually-hidden' : ''}>{title}</span>
       <input
         type="text"
         name={name}

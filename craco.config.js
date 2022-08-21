@@ -17,7 +17,7 @@ module.exports = {
   style: {
     sass: {
       loaderOptions: {
-        additionalData: '@import "src/app/styles/ds-system/ds-styles.scss"; @import "src/app/styles/mixins/mixins.scss";',
+        additionalData: '@import "src/app/styles/index.scss";',
       },
     },
   },

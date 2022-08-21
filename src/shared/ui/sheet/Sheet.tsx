@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import style from './Sheet.module.scss';
 
 type SheetProps = {
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   contentClassName?: string;
 };

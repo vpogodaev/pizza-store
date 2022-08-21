@@ -1,15 +1,16 @@
 import React from 'react';
-import './App.scss';
 import { Constructor } from '@pages/constructor';
-import { Header } from '@shared/ui/header/Header';
+import { Header } from '@shared/ui';
+import { Cart } from '@pages/cart';
 
 function App() {
   return (
-    <div className="App">
+    <>
       <Header />
-      <Constructor />
-    </div>
+      {/*<Constructor />*/}
+      <Cart />
+    </>
   );
-}
 
+}
 export default App;

@@ -1,0 +1,16 @@
+.cart-form__select {
+  display: flex;
+  align-items: center;
+
+  margin-right: auto;
+
+  span {
+    margin-right: 16px;
+  }
+}
+
+.cart-form__label {
+  @include b-s16-h19;
+
+  white-space: nowrap;
+}
