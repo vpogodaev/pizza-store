@@ -1,16 +1,14 @@
 import React from 'react';
-import { Constructor } from '@pages/constructor';
-import { Header } from '@shared/ui';
-import { Cart } from '@pages/cart';
+import { Header } from '@shared/ui/components';
+import { Pages } from '@pages/Pages';
 
 function App() {
   return (
     <>
       <Header />
-      {/*<Constructor />*/}
-      <Cart />
+      <Pages />
     </>
   );
-
 }
+
 export default App;

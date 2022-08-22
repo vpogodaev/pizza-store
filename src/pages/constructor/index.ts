@@ -1,1 +1,1 @@
-export * from './ui/Constructor';
+export { Constructor } from './ui/Constructor';

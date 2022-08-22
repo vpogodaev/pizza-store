@@ -17,7 +17,7 @@ module.exports = {
   style: {
     sass: {
       loaderOptions: {
-        additionalData: '@import "src/app/styles/index.scss";',
+        additionalData: '@import "src/shared/ui/styles/index.scss";',
       },
     },
   },
