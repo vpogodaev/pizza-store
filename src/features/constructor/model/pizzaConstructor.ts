@@ -6,6 +6,8 @@ import { Ingredient, IngredientType } from '@entities/pizza/model/ingredient';
 
 type PizzaConstructorIngredients = Record<IngredientType, [number, Ingredient]>;
 
+type IngredientsCount = Record<IngredientType, number>;
+
 type PizzaConstructor = {
   dough?: Dough;
   size?: Size;
@@ -22,10 +24,14 @@ export const chosenSauce = createEvent<Sauce>();
 export const chosenSize = createEvent<Size>();
 export const changedName = createEvent<string>();
 
-export const setIngredientCount = createEvent<[Ingredient, number]>();
-const hasBeenSetIngredientCount = createEvent<PizzaConstructor>();
+export const ingredientCountChanged = createEvent<{
+  count: number;
+  ingredient: Ingredient;
+}>();
+const hasBeenSetIngredientCount = createEvent<Ingredient[]>();
 
 const calculatedPrice = createEvent<number>();
+const ingredientsCountsCalculated = createEvent();
 
 const updatedPizza = merge([
   addedIngredient,
@@ -36,164 +42,132 @@ const updatedPizza = merge([
   chosenDough,
 ]);
 
-export const $pizzaConstructor = createStore<PizzaConstructor>({
-  name: '',
-  price: 0,
-})
-  .on(addedIngredient, (state, ingredient) => {
-    const newIngredients = state.ingredients
-      ? { ...state.ingredients }
-      : ({} as PizzaConstructorIngredients);
-
-    if (!newIngredients[ingredient.type]) {
-      newIngredients[ingredient.type] = [1, ingredient];
-    } else {
-      newIngredients[ingredient.type][0] += 1;
-    }
-    return {
-      ...state,
-      ingredients: { ...newIngredients },
-    };
-  })
-  .on(removedIngredient, (state, ingredient) => {
-    const newIngredients = state.ingredients
-      ? { ...state.ingredients }
-      : ({} as PizzaConstructorIngredients);
-
-    if (newIngredients[ingredient.type]) {
-      const newCount = newIngredients[ingredient.type][0] - 1;
-      newIngredients[ingredient.type][0] = newCount > 0 ? newCount : 0;
-    }
-    return {
-      ...state,
-      ingredients: { ...newIngredients },
-    };
-  })
-  .on(chosenDough, (state, newDough) => ({
-    ...state,
-    dough: newDough,
-  }))
-  .on(chosenSauce, (state, sauce) => ({
-    ...state,
-    sauce,
-  }))
-  .on(chosenSize, (state, size) => ({
-    ...state,
-    size,
-  }))
-  .on(changedName, (state, name) => ({
-    ...state,
-    name,
-  }))
-  .on(calculatedPrice, (state, price) => ({ ...state, price }));
-
-export const $ingredientsCount = $pizzaConstructor.map(({ ingredients }) => {
-  if (!ingredients) {
-    return 0;
-  }
-
-  return Object.keys(ingredients).reduce(
-    (acc, key) => acc + (ingredients[key as IngredientType]?.[0] || 0),
-    0,
-  );
-});
-export const $ingredientsTypes = $pizzaConstructor.map<IngredientType[]>(
-  ({ ingredients }) => {
-    if (!ingredients) {
-      return [];
-    }
-
-    return Object.keys(ingredients).reduce((acc, key) => {
-      const type = key as IngredientType;
-      if (ingredients[type]?.[0]) {
-        for (let i = 0; i < ingredients[type][0]; i++) {
-          acc.push(type);
-        }
-      }
-      return acc;
-    }, [] as IngredientType[]);
-  },
+const MAX_INGREDIENTS = 3;
+export const $constructorDough = createStore<Dough | null>(null).on(
+  chosenDough,
+  (_, newDough) => newDough,
 );
 
-$pizzaConstructor.on(hasBeenSetIngredientCount, (_, newState) => newState);
+export const $constructorSize = createStore<Size | null>(null).on(
+  chosenSize,
+  (_, size) => size,
+);
+
+export const $constructorSauce = createStore<Sauce | null>(null).on(
+  chosenSauce,
+  (_, sauce) => sauce,
+);
+
+export const $constructorName = createStore<string>('').on(
+  changedName,
+  (_, name) => name,
+);
+
+export const $constructorPrice = createStore<number>(0).on(
+  calculatedPrice,
+  (_, price) => price,
+);
+
+export const $constructorIngredients = createStore<Ingredient[]>([])
+  .on(addedIngredient, (state, ingredient) => [...state, ingredient])
+  .on(removedIngredient, (state, ingredient) => {
+    const index = state.findIndex((ing) => ing.type === ingredient.type);
+    return [...state.slice(0, index), ...state.slice(index + 1)];
+  })
+  .on(hasBeenSetIngredientCount, (_, ingredients) => ingredients);
+
+export const $constructorIngredientsCounts =
+  createStore<IngredientsCount | null>(null).on(
+    ingredientsCountsCalculated,
+    (state, ingredients) => ingredients,
+  );
 
 sample({
-  clock: setIngredientCount,
+  clock: $constructorIngredients.updates,
+  fn: (ingredients) =>
+    ingredients.reduce<IngredientsCount>((acc, ingredient) => {
+      acc[ingredient.type] = acc[ingredient.type] + 1 || 1;
+      return acc;
+    }, {} as IngredientsCount),
+  target: ingredientsCountsCalculated,
+});
+
+export const $canAddMore = $constructorIngredients.map(
+  (ingredients) => ingredients.length < MAX_INGREDIENTS,
+);
+
+export const $ingredientsTypes = $constructorIngredients.map<IngredientType[]>(
+  (ingredients) => ingredients.map((ingredient) => ingredient.type),
+);
+
+export const $isReady = createStore(false).on(
+  $constructorPrice,
+  (_, price) => price > 0,
+);
+
+sample({
+  clock: ingredientCountChanged,
   source: {
-    state: $pizzaConstructor,
-    ingredientsCount: $ingredientsCount,
+    canAddMore: $canAddMore,
+    constructorIngredients: $constructorIngredients,
+    constructorIngredientsCounts: $constructorIngredientsCounts,
   },
-  fn: ({ state, ingredientsCount }, [ingredient, count]) => {
-    const newIngredients = state.ingredients
-      ? { ...state.ingredients }
-      : ({} as PizzaConstructorIngredients);
-
-    const currentCount = ingredientsCount;
-    if (currentCount >= 3) {
-      return state;
-    }
-
-    const maxAvailableCount =
-      3 - currentCount + (newIngredients[ingredient.type]?.[0] || 0);
-
-    if (!newIngredients[ingredient.type]) {
-      newIngredients[ingredient.type] = [0, ingredient];
-    }
+  fn: ({ constructorIngredients, constructorIngredientsCounts }, payload) => {
+    const currentCount = constructorIngredients.length;
 
     let newCount = 0;
+    const maxAvailableCount =
+      MAX_INGREDIENTS -
+      currentCount +
+      (constructorIngredientsCounts?.[payload.ingredient.type] || 0);
 
-    if (count > 0) {
-      newCount = count > maxAvailableCount ? maxAvailableCount : count;
-    } else if (count < 0) {
-      newCount = 0;
+    if (payload.count > maxAvailableCount) {
+      newCount = maxAvailableCount;
+    } else if (payload.count > 0) {
+      newCount = payload.count;
     }
 
-    newIngredients[ingredient.type] = [newCount, ingredient];
+    const newIngredients = constructorIngredients.filter(
+      (i) => i.type !== payload.ingredient.type,
+    );
 
-    return {
-      ...state,
-      ingredients: { ...newIngredients },
-    };
+    for (let i = 0; i < newCount; i++) {
+      newIngredients.push(payload.ingredient);
+    }
+
+    return newIngredients;
   },
   target: hasBeenSetIngredientCount,
 });
-
-$pizzaConstructor.watch((state) => {
-  console.log('$pizzaConstructor.watch state', state);
-});
-
-export const $isReady = $pizzaConstructor.map(
-  ({ ingredients, size, sauce, price, name, dough }) => {
-    return !!(price && name);
-  },
-);
 
 sample({
   clock: $doughs.updates,
   fn: (doughs) => doughs[0],
   target: chosenDough,
 });
+
 sample({
   clock: $sauces.updates,
   fn: (sauces) => sauces[0],
   target: chosenSauce,
 });
+
 sample({
   clock: $sizes.updates,
   fn: (sizes) => sizes[1],
   target: chosenSize,
 });
+
 sample({
   clock: updatedPizza,
-  source: $pizzaConstructor,
-  fn: (constructor) => {
-    const { dough, sauce, ingredients, size } = constructor;
-    const ingredientsPrice = !ingredients
-      ? 0
-      : Object.keys(ingredients).reduce((acc, key) => {
-          const type = key as IngredientType;
-          return acc + ingredients[type][1].price * ingredients[type][0];
-        }, 0);
+  source: {
+    dough: $constructorDough,
+    sauce: $constructorSauce,
+    size: $constructorSize,
+    ingredients: $constructorIngredients,
+  },
+  fn: ({ dough, sauce, size, ingredients }) => {
+    const ingredientsPrice = ingredients.reduce((acc, i) => acc + i.price, 0);
     const doughPrice = dough?.price || 0;
     const saucePrice = sauce?.price || 0;
     const sizeMultiplier = size?.multiplier || 0;

@@ -10,13 +10,11 @@ export type Pizza = {
   size: Size;
   ingredients: Ingredient[];
   price: number;
-}
+};
 
 const getPizzaPrice = ({ dough, sauce, size, ingredients }: Pizza) => {
   const ingredientsPrice = ingredients.reduce((pv, cv) => pv + cv.price, 0);
-  return (
-           ingredientsPrice + sauce.price + dough.price
-         ) * size.multiplier;
+  return (ingredientsPrice + sauce.price + dough.price) * size.multiplier;
 };
 //
 // const pizzaCooked = createEvent<Pizza>()

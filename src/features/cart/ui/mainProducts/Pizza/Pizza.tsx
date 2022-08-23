@@ -23,9 +23,10 @@ export const Pizza: FC<PizzaProps> = ({ title, info, price }) => {
     }
   };
 
-  const infoToRender = useMemo(() => {
-    return info.map((item, i) => <li key={i.toString()}>{item}</li>);
-  }, [info]);
+  const infoToRender = useMemo(
+    () => info.map((item, i) => <li key={i.toString()}>{item}</li>),
+    [info],
+  );
 
   return (
     <li className={style['cart-list__item']}>

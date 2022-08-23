@@ -18,21 +18,19 @@ export const Radio: FC<RadioProps> = ({
   onChange,
   name,
   value,
-  defaultChecked
-}) => {
-  return (
-    <label
-      className={`${style.radio}${extraClassName ? ` ${extraClassName}` : ''}`}
-    >
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-        defaultChecked={defaultChecked}
-      />
-      <span>{title}</span>
-    </label>
-  );
-};
+  defaultChecked,
+}) => (
+  <label
+    className={`${style.radio}${extraClassName ? ` ${extraClassName}` : ''}`}
+  >
+    <input
+      type="radio"
+      name={name}
+      value={value}
+      checked={checked}
+      onChange={onChange}
+      defaultChecked={defaultChecked}
+    />
+    <span>{title}</span>
+  </label>
+);

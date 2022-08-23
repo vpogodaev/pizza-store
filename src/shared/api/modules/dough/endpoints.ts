@@ -1,5 +1,8 @@
 import { api } from '@shared/api/client/api';
-import { mapResponseDoughToEntity, ResponseDough } from '@shared/api/modules/dough/mappers';
+import {
+  mapResponseDoughToEntity,
+  ResponseDough,
+} from '@shared/api/modules/dough/mappers';
 import { Dough } from '@entities/pizza/model/dough';
 
 export const getDough = async () =>

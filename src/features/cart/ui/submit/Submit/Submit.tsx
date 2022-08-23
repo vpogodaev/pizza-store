@@ -3,15 +3,13 @@ import style from './Submit.module.scss';
 
 type SubmitProps = {};
 
-export const Submit: FC<SubmitProps> = ({}) => {
-  return (
-    <div className={style.footer__submit}>
-      <button
-        type="submit"
-        className="button"
-      >
-        Оформить заказ
-      </button>
-    </div>
-  );
-};
+export const Submit: FC<SubmitProps> = ({}) => (
+  <div className={style.footer__submit}>
+    <button
+      type="submit"
+      className="button"
+    >
+      Оформить заказ
+    </button>
+  </div>
+);

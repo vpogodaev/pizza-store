@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
-import { MiscProduct } from '@features/cart/ui/miscProducts/MiscProduct/MiscProduct';
+import { Misc } from '@features/cart/ui/misc/Misc/Misc';
 import cola from '@shared/ui/assets/img/cola.svg';
 import sauce from '@shared/ui/assets/img/sauce.svg';
 import potato from '@shared/ui/assets/img/potato.svg';
-import style from './MiscProductsList.module.scss';
+import style from './MiscList.module.scss';
 
-type MiscProductsListProps = {};
+type MiscListProps = {};
 
-const miscProducts = [
+const misc = [
   {
     title: 'Coca-Cola 0,5 литра',
     img: cola,
@@ -25,9 +25,9 @@ const miscProducts = [
   },
 ];
 
-export const MiscProductsList: FC<MiscProductsListProps> = ({}) => {
-  const productsToRender = miscProducts.map(({ title, img, price }, i) => (
-    <MiscProduct
+export const MiscList: FC<MiscListProps> = ({}) => {
+  const productsToRender = misc.map(({ title, img, price }, i) => (
+    <Misc
       title={title}
       imgSrc={img}
       price={price}

@@ -16,19 +16,17 @@ export const AddressItem: FC<AddressItemProps> = ({
   value,
   name,
   title,
-}) => {
-  return (
-    <div
-      className={`${style['cart-form__input']} ${
-        small ? style['cart-form__input--small'] : ''
-      }`}
-    >
-      <TextBox
-        title={title}
-        value={value}
-        onChange={onChange}
-        name={name}
-      />
-    </div>
-  );
-};
+}) => (
+  <div
+    className={`${style['cart-form__input']} ${
+      small ? style['cart-form__input--small'] : ''
+    }`}
+  >
+    <TextBox
+      title={title}
+      value={value}
+      onChange={onChange}
+      name={name}
+    />
+  </div>
+);

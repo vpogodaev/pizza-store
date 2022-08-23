@@ -13,17 +13,14 @@ interface Response<T> {
   statusText: string;
 }
 
-const get = <R>(url: string, params?: any): Promise<Response<R>> => {
-  return axiosApi.get(url, { params });
-};
+const get = <R>(url: string, params?: any): Promise<Response<R>> =>
+  axiosApi.get(url, { params });
 
 const post = <D, R>(
   url: string,
   data: D,
   headers: Headers = { 'content-type': 'application/json' },
-): Promise<Response<R>> => {
-  return axiosApi.post(url, data, headers);
-};
+): Promise<Response<R>> => axiosApi.post(url, data, headers);
 
 export const api = {
   get,

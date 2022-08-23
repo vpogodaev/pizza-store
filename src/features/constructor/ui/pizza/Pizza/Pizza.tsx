@@ -2,23 +2,35 @@ import React, { ChangeEvent, FC } from 'react';
 import { Fillings } from '@features/constructor/ui/pizza/Fillings/Fillings';
 import { TextBox } from '@shared/ui/components';
 import {
+  $constructorName,
+  $constructorPrice,
+  $constructorSauce,
+  $constructorSize,
   $ingredientsTypes,
   $isReady,
-  $pizzaConstructor,
   changedName,
 } from '@features/constructor/model/pizzaConstructor';
 import { useStore } from 'effector-react';
+import { addedPizza } from '@entities/cart/model/cart';
 import style from './Pizza.module.scss';
 
 type PizzaProps = {};
 
 export const Pizza: FC<PizzaProps> = ({}) => {
-  const { name, sauce, size, price } = useStore($pizzaConstructor);
+  const name = useStore($constructorName);
+  const sauce = useStore($constructorSauce);
+  const size = useStore($constructorSize);
+  const price = useStore($constructorPrice);
+
   const isReady = useStore($isReady);
   const ingredients = useStore($ingredientsTypes);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     changedName(e.target.value);
+  };
+
+  const handleCookClicked = () => {
+    // addedPizza();
   };
 
   return (
@@ -54,6 +66,7 @@ export const Pizza: FC<PizzaProps> = ({}) => {
           type="button"
           className="button"
           disabled={!isReady}
+          onClick={handleCookClicked}
         >
           Готовьте!
         </button>

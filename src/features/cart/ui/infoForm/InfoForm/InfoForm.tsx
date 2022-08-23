@@ -6,14 +6,12 @@ import style from './InfoForm.module.scss';
 
 type InfoFormProps = {};
 
-export const InfoForm: FC<InfoFormProps> = ({}) => {
-  return (
-    <div className={style.cart__form}>
-      <div className={style['cart-form']}>
-        <ReceiveOption />
-        <Phone />
-        <Address />
-      </div>
+export const InfoForm: FC<InfoFormProps> = ({}) => (
+  <div className={style.cart__form}>
+    <div className={style['cart-form']}>
+      <ReceiveOption />
+      <Phone />
+      <Address />
     </div>
-  );
-};
+  </div>
+);

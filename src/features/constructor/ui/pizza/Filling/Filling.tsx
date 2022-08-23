@@ -11,7 +11,7 @@ type FillingProps = {
 export const Filling: FC<FillingProps> = ({ type, second, third }) => {
   const typeClassName = style[`pizza__filling--${type}`];
   const secondClassName = second ? ` ${style['pizza__filling--second']}` : '';
-  const thirdClassName = second ? ` ${style['pizza__filling--third']}` : '';
+  const thirdClassName = third ? ` ${style['pizza__filling--third']}` : '';
   return (
     <div
       className={`${style.pizza__filling} ${typeClassName}${secondClassName}${thirdClassName}`}

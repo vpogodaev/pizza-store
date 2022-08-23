@@ -21,21 +21,19 @@ export const TextBox: FC<TextBoxProps> = ({
   hideTitle,
   labelClassName,
   bigLabel,
-}) => {
-  return (
-    <label
-      className={`${style.input}${bigLabel ? ` ${style['input--big-label']}` : ''}${
-        labelClassName ? ` ${labelClassName}` : ''
-      }`}
-    >
-      <span className={hideTitle ? 'visually-hidden' : ''}>{title}</span>
-      <input
-        type="text"
-        name={name}
-        placeholder={placeholder}
-        onChange={onChange}
-        value={value}
-      />
-    </label>
-  );
-};
+}) => (
+  <label
+    className={`${style.input}${
+      bigLabel ? ` ${style['input--big-label']}` : ''
+    }${labelClassName ? ` ${labelClassName}` : ''}`}
+  >
+    <span className={hideTitle ? 'visually-hidden' : ''}>{title}</span>
+    <input
+      type="text"
+      name={name}
+      placeholder={placeholder}
+      onChange={onChange}
+      value={value}
+    />
+  </label>
+);

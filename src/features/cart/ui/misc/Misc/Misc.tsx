@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Counter, HeadlessSheet } from '@shared/ui/components';
-import style from './MiscProduct.module.scss';
+import style from './Misc.module.scss';
 
-type MiscProductProps = {
+type MiscProps = {
   title: string;
   imgSrc: string;
   price: string;
 };
 
-export const MiscProduct: FC<MiscProductProps> = ({title, imgSrc, price}) => {
+export const Misc: FC<MiscProps> = ({ title, imgSrc, price }) => {
   const [count, setCount] = useState(0);
 
   const handleCountChangeClicked = (newValue: number) => {

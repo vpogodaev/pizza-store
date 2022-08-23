@@ -8,11 +8,11 @@ import {
 } from '@entities/pizza/model/ingredient';
 import { useStore } from 'effector-react';
 import {
-  $ingredientsCount,
-  $pizzaConstructor,
   addedIngredient,
   removedIngredient,
-  setIngredientCount,
+  ingredientCountChanged,
+  $constructorIngredientsCounts,
+  $canAddMore,
 } from '@features/constructor/model/pizzaConstructor';
 import style from './IngredientsCard.module.scss';
 
@@ -20,12 +20,8 @@ type IngredientsCardProps = {};
 
 export const IngredientsCard: FC<IngredientsCardProps> = ({}) => {
   const ingredients = useStore($ingredients);
-  const currentIngredients = useStore($pizzaConstructor).ingredients;
-  const currentIngredientsCount = useStore($ingredientsCount);
-
-  const canAddMore = useMemo(() => {
-    return currentIngredientsCount < 3;
-  }, [currentIngredientsCount]);
+  const ingredientsCounts = useStore($constructorIngredientsCounts);
+  const canAddMore = useStore($canAddMore);
 
   const handlePlusClicked = (ingredient: TIngredient) => {
     addedIngredient(ingredient);
@@ -39,7 +35,7 @@ export const IngredientsCard: FC<IngredientsCardProps> = ({}) => {
     e: ChangeEvent<HTMLInputElement>,
     ingredient: TIngredient,
   ) => {
-    setIngredientCount([ingredient, +e.target.value]);
+    ingredientCountChanged({ count: Number(e.target.value), ingredient });
   };
 
   const ingredientsToRender = ingredients.map((i) => (
@@ -47,7 +43,7 @@ export const IngredientsCard: FC<IngredientsCardProps> = ({}) => {
       title={i.name}
       type={i.type}
       key={i.type}
-      value={currentIngredients?.[i.type]?.[0] || 0}
+      value={ingredientsCounts?.[i.type] || 0}
       canAddMore={canAddMore}
       onMinusClicked={() => handleMinusClicked(i)}
       onPlusClicked={() => handlePlusClicked(i)}

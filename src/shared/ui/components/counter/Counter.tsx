@@ -21,38 +21,34 @@ export const Counter: FC<CounterProps> = ({
   minusDisabled,
   plusDisabled,
   color,
-}) => {
-  return (
-    <div
-      className={`${style.counter}${
-        extraClassName ? ` ${extraClassName}` : ''
-      }`}
+}) => (
+  <div
+    className={`${style.counter}${extraClassName ? ` ${extraClassName}` : ''}`}
+  >
+    <button
+      type="button"
+      className={`${style.counter__button} ${style['counter__button--minus']}`}
+      disabled={minusDisabled}
+      onClick={onMinusClicked}
     >
-      <button
-        type="button"
-        className={`${style.counter__button} ${style['counter__button--minus']}`}
-        disabled={minusDisabled}
-        onClick={onMinusClicked}
-      >
-        <span className="visually-hidden">Меньше</span>
-      </button>
-      <input
-        type="text"
-        name="counter"
-        className={style.counter__input}
-        value={value}
-        onChange={onValueChanged}
-      />
-      <button
-        type="button"
-        className={`${style.counter__button} ${style['counter__button--plus']}${
-          color ? ` ${style[`counter__button--${color}`]}` : ''
-        }`}
-        disabled={plusDisabled}
-        onClick={onPlusClicked}
-      >
-        <span className="visually-hidden">Больше</span>
-      </button>
-    </div>
-  );
-};
+      <span className="visually-hidden">Меньше</span>
+    </button>
+    <input
+      type="text"
+      name="counter"
+      className={style.counter__input}
+      value={value}
+      onChange={onValueChanged}
+    />
+    <button
+      type="button"
+      className={`${style.counter__button} ${style['counter__button--plus']}${
+        color ? ` ${style[`counter__button--${color}`]}` : ''
+      }`}
+      disabled={plusDisabled}
+      onClick={onPlusClicked}
+    >
+      <span className="visually-hidden">Больше</span>
+    </button>
+  </div>
+);

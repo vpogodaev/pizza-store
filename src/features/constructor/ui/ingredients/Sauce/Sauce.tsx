@@ -14,14 +14,12 @@ export const Sauce: FC<SauceProps> = ({
   title,
   onChange,
   checked,
-}) => {
-  return (
-    <Radio
-      title={title}
-      onChange={onChange}
-      checked={checked}
-      extraClassName={style.ingredients__input}
-      defaultChecked={defaultChecked}
-    />
-  );
-};
+}) => (
+  <Radio
+    title={title}
+    onChange={onChange}
+    checked={checked}
+    extraClassName={style.ingredients__input}
+    defaultChecked={defaultChecked}
+  />
+);

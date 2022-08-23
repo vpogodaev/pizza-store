@@ -3,10 +3,9 @@
   font-weight: 300;
   font-style: normal;
 
-  src: local('RobotoLight'),
-  local('Roboto Light'),
-  url('../assets/fonts/roboto-light.woff2') format('woff2'),
-  url('../assets/fonts/roboto-light.woff') format('woff');
+  src: local('RobotoLight'), local('Roboto Light'),
+    url('../assets/fonts/roboto-light.woff2') format('woff2'),
+    url('../assets/fonts/roboto-light.woff') format('woff');
   font-display: swap;
 }
 
@@ -15,10 +14,9 @@
   font-weight: 400;
   font-style: normal;
 
-  src: local('Roboto'),
-  local('Roboto Regular'),
-  url('../assets/fonts/roboto-regular.woff2') format('woff2'),
-  url('../assets/fonts/roboto-regular.woff') format('woff');
+  src: local('Roboto'), local('Roboto Regular'),
+    url('../assets/fonts/roboto-regular.woff2') format('woff2'),
+    url('../assets/fonts/roboto-regular.woff') format('woff');
   font-display: swap;
 }
 
@@ -27,9 +25,8 @@
   font-weight: 700;
   font-style: normal;
 
-  src: local('RobotoBold'),
-  local('Roboto Bold'),
-  url('../assets/fonts/roboto-bold.woff2') format('woff2'),
-  url('../assets/fonts/roboto-bold.woff') format('woff');
+  src: local('RobotoBold'), local('Roboto Bold'),
+    url('../assets/fonts/roboto-bold.woff2') format('woff2'),
+    url('../assets/fonts/roboto-bold.woff') format('woff');
   font-display: swap;
 }

@@ -4,12 +4,10 @@ import style from './CartFooter.module.scss';
 
 type CartFooterProps = {};
 
-export const CartFooter: FC<CartFooterProps> = ({}) => {
-  return (
-    <section className={style.footer}>
-      <Back />
-      <TotalPrice />
-      <Submit />
-    </section>
-  );
-};
+export const CartFooter: FC<CartFooterProps> = ({}) => (
+  <section className={style.footer}>
+    <Back />
+    <TotalPrice />
+    <Submit />
+  </section>
+);

@@ -15,16 +15,10 @@ import style from './Constructor.module.scss';
 
 type ConstructorProps = {};
 
-const IngredientsGate = createGate();
-const DoughGate = createGate();
-const SauceGate = createGate();
-const SizeGate = createGate();
+const ConstructorGate = createGate();
 
 export const Constructor: FC<ConstructorProps> = ({}) => {
-  useGate(IngredientsGate);
-  useGate(DoughGate);
-  useGate(SauceGate);
-  useGate(SizeGate);
+  useGate(ConstructorGate);
 
   return (
     <main className="content">
@@ -40,7 +34,12 @@ export const Constructor: FC<ConstructorProps> = ({}) => {
   );
 };
 
-sample({ clock: IngredientsGate.open, target: readyToLoadIngredients });
-sample({ clock: DoughGate.open, target: readyToLoadDoughs });
-sample({ clock: SauceGate.open, target: readyToLoadSauces });
-sample({ clock: SizeGate.open, target: readyToLoadSizes });
+sample({
+  clock: ConstructorGate.open,
+  target: [
+    readyToLoadIngredients,
+    readyToLoadDoughs,
+    readyToLoadSauces,
+    readyToLoadSizes,
+  ],
+});

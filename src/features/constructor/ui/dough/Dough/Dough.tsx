@@ -10,17 +10,23 @@ type DoughProps = {
   defaultChecked?: boolean;
 };
 
-export const Dough: FC<DoughProps> = ({ title, description, type, onClick, defaultChecked }) => {
-  return (
-    <label className={`${style.dough__input} ${style[`dough__input--${type}`]}`}>
-      <input type="radio"
-             name="dough"
-             value={type}
-             className="visually-hidden"
-             defaultChecked={defaultChecked}
-             onClick={onClick} />
-      <b>{title}</b>
-      <span>{description}</span>
-    </label>
-  );
-};
+export const Dough: FC<DoughProps> = ({
+  title,
+  description,
+  type,
+  onClick,
+  defaultChecked,
+}) => (
+  <label className={`${style.dough__input} ${style[`dough__input--${type}`]}`}>
+    <input
+      type="radio"
+      name="dough"
+      value={type}
+      className="visually-hidden"
+      defaultChecked={defaultChecked}
+      onClick={onClick}
+    />
+    <b>{title}</b>
+    <span>{description}</span>
+  </label>
+);

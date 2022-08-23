@@ -5,6 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 type TPagesProps = {};
 
-export const Pages: FC<TPagesProps> = ({}) => {
-  return <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>;
-};
+export const Pages: FC<TPagesProps> = ({}) => (
+  <BrowserRouter>{renderRoutes(routes)}</BrowserRouter>
+);
