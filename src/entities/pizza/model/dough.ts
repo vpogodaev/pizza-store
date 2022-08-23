@@ -1,7 +1,5 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
-import { getDough } from '@shared/api/modules/dough/endpoints';
-import { createGate } from 'effector-react';
-import { forward } from 'effector/compat';
+import { getDough } from '@shared/api/modules/dough';
 
 export type DoughType = 'light' | 'large';
 
@@ -23,5 +21,3 @@ export const $doughs = createStore<Dough[]>([]).on(
 );
 
 sample({ clock: readyToLoadDoughs, target: getDoughsFx });
-
-//forward({ from: DoughGate.state, to: getDoughsFx });

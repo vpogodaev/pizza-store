@@ -3,11 +3,12 @@ import style from './Radio.module.scss';
 
 type RadioProps = {
   title: string;
-  checked: boolean;
+  checked?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
   extraClassName?: string;
   name?: string;
   value?: string;
+  defaultChecked?: boolean;
 };
 
 export const Radio: FC<RadioProps> = ({
@@ -17,6 +18,7 @@ export const Radio: FC<RadioProps> = ({
   onChange,
   name,
   value,
+  defaultChecked
 }) => {
   return (
     <label
@@ -28,6 +30,7 @@ export const Radio: FC<RadioProps> = ({
         value={value}
         checked={checked}
         onChange={onChange}
+        defaultChecked={defaultChecked}
       />
       <span>{title}</span>
     </label>

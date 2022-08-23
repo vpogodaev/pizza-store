@@ -1,8 +1,4 @@
 import { getIngredients } from '@shared/api/modules/ingredients';
-import {
-  mapResponseIngredientToEntity,
-  ResponseIngredient,
-} from '@shared/api/modules/ingredients/mappers';
 import { createEffect, createStore, forward } from 'effector';
 import { createGate } from 'effector-react';
 
@@ -31,17 +27,7 @@ export type Ingredient = {
 };
 
 const getIngredientsFx = createEffect(
-  async () =>
-    await getIngredients().then((r) => {
-      const result: Ingredient[] = [];
-      r.data.forEach((ingredient: ResponseIngredient) => {
-        const mapped = mapResponseIngredientToEntity(ingredient);
-        if (mapped) {
-          result.push(mapped);
-        }
-      });
-      return result;
-    }),
+  async () => await getIngredients(),
 );
 export const $ingredients = createStore<Ingredient[]>([]).on(
   getIngredientsFx.doneData,

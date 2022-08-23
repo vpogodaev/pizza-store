@@ -9,15 +9,18 @@ import { createGate, useGate } from 'effector-react';
 import { IngredientsGate } from '@entities/pizza/model/ingredient';
 import { sample } from 'effector';
 import { readyToLoadDoughs } from '@entities/pizza/model/dough';
+import { readyToLoadSauces } from '@entities/pizza/model/sauce';
 import style from './Constructor.module.scss';
 
 type ConstructorProps = {};
 
 const DoughGate = createGate();
+const SauceGate = createGate();
 
 export const Constructor: FC<ConstructorProps> = ({}) => {
   useGate(IngredientsGate);
   useGate(DoughGate);
+  useGate(SauceGate);
 
   return (
     <main className="content">
@@ -34,3 +37,4 @@ export const Constructor: FC<ConstructorProps> = ({}) => {
 };
 
 sample({ clock: DoughGate.open, target: readyToLoadDoughs });
+sample({ clock: SauceGate.open, target: readyToLoadSauces });
