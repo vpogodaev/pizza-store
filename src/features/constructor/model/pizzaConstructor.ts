@@ -1,4 +1,4 @@
-import { createEvent, createStore, sample } from 'effector';
+import { createEvent, createStore, merge, sample } from 'effector';
 import { $doughs, Dough } from '@entities/pizza/model/dough';
 import { $sizes, Size } from '@entities/pizza/model/size';
 import { $sauces, Sauce } from '@entities/pizza/model/sauce';
@@ -11,20 +11,36 @@ type PizzaConstructor = {
   size?: Size;
   sauce?: Sauce;
   ingredients?: PizzaConstructorIngredients;
-  name?: string;
+  name: string;
+  price: number;
 };
 
-export const addIngredient = createEvent<Ingredient>();
-export const removeIngredient = createEvent<Ingredient>();
+export const addedIngredient = createEvent<Ingredient>();
+export const removedIngredient = createEvent<Ingredient>();
 export const chosenDough = createEvent<Dough>();
 export const chosenSauce = createEvent<Sauce>();
 export const chosenSize = createEvent<Size>();
+export const changedName = createEvent<string>();
 
 export const setIngredientCount = createEvent<[Ingredient, number]>();
 const hasBeenSetIngredientCount = createEvent<PizzaConstructor>();
 
-export const $pizzaConstructor = createStore<PizzaConstructor>({})
-  .on(addIngredient, (state, ingredient) => {
+const calculatedPrice = createEvent<number>();
+
+const updatedPizza = merge([
+  addedIngredient,
+  removedIngredient,
+  hasBeenSetIngredientCount,
+  chosenSize,
+  chosenSauce,
+  chosenDough,
+]);
+
+export const $pizzaConstructor = createStore<PizzaConstructor>({
+  name: '',
+  price: 0,
+})
+  .on(addedIngredient, (state, ingredient) => {
     const newIngredients = state.ingredients
       ? { ...state.ingredients }
       : ({} as PizzaConstructorIngredients);
@@ -39,7 +55,7 @@ export const $pizzaConstructor = createStore<PizzaConstructor>({})
       ingredients: { ...newIngredients },
     };
   })
-  .on(removeIngredient, (state, ingredient) => {
+  .on(removedIngredient, (state, ingredient) => {
     const newIngredients = state.ingredients
       ? { ...state.ingredients }
       : ({} as PizzaConstructorIngredients);
@@ -64,7 +80,12 @@ export const $pizzaConstructor = createStore<PizzaConstructor>({})
   .on(chosenSize, (state, size) => ({
     ...state,
     size,
-  }));
+  }))
+  .on(changedName, (state, name) => ({
+    ...state,
+    name,
+  }))
+  .on(calculatedPrice, (state, price) => ({ ...state, price }));
 
 export const $ingredientsCount = $pizzaConstructor.map(({ ingredients }) => {
   if (!ingredients) {
@@ -76,6 +97,23 @@ export const $ingredientsCount = $pizzaConstructor.map(({ ingredients }) => {
     0,
   );
 });
+export const $ingredientsTypes = $pizzaConstructor.map<IngredientType[]>(
+  ({ ingredients }) => {
+    if (!ingredients) {
+      return [];
+    }
+
+    return Object.keys(ingredients).reduce((acc, key) => {
+      const type = key as IngredientType;
+      if (ingredients[type]?.[0]) {
+        for (let i = 0; i < ingredients[type][0]; i++) {
+          acc.push(type);
+        }
+      }
+      return acc;
+    }, [] as IngredientType[]);
+  },
+);
 
 $pizzaConstructor.on(hasBeenSetIngredientCount, (_, newState) => newState);
 
@@ -124,6 +162,12 @@ $pizzaConstructor.watch((state) => {
   console.log('$pizzaConstructor.watch state', state);
 });
 
+export const $isReady = $pizzaConstructor.map(
+  ({ ingredients, size, sauce, price, name, dough }) => {
+    return !!(price && name);
+  },
+);
+
 sample({
   clock: $doughs.updates,
   fn: (doughs) => doughs[0],
@@ -138,4 +182,23 @@ sample({
   clock: $sizes.updates,
   fn: (sizes) => sizes[1],
   target: chosenSize,
+});
+sample({
+  clock: updatedPizza,
+  source: $pizzaConstructor,
+  fn: (constructor) => {
+    const { dough, sauce, ingredients, size } = constructor;
+    const ingredientsPrice = !ingredients
+      ? 0
+      : Object.keys(ingredients).reduce((acc, key) => {
+          const type = key as IngredientType;
+          return acc + ingredients[type][1].price * ingredients[type][0];
+        }, 0);
+    const doughPrice = dough?.price || 0;
+    const saucePrice = sauce?.price || 0;
+    const sizeMultiplier = size?.multiplier || 0;
+
+    return (ingredientsPrice + doughPrice + saucePrice) * sizeMultiplier;
+  },
+  target: calculatedPrice,
 });

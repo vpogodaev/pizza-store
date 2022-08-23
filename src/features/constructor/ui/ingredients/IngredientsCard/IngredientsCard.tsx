@@ -10,8 +10,8 @@ import { useStore } from 'effector-react';
 import {
   $ingredientsCount,
   $pizzaConstructor,
-  addIngredient,
-  removeIngredient,
+  addedIngredient,
+  removedIngredient,
   setIngredientCount,
 } from '@features/constructor/model/pizzaConstructor';
 import style from './IngredientsCard.module.scss';
@@ -28,11 +28,11 @@ export const IngredientsCard: FC<IngredientsCardProps> = ({}) => {
   }, [currentIngredientsCount]);
 
   const handlePlusClicked = (ingredient: TIngredient) => {
-    addIngredient(ingredient);
+    addedIngredient(ingredient);
   };
 
   const handleMinusClicked = (ingredient: TIngredient) => {
-    removeIngredient(ingredient);
+    removedIngredient(ingredient);
   };
 
   const handleValueChanged = (

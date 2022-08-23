@@ -1,18 +1,24 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { Fillings } from '@features/constructor/ui/pizza/Fillings/Fillings';
 import { TextBox } from '@shared/ui/components';
+import {
+  $ingredientsTypes,
+  $isReady,
+  $pizzaConstructor,
+  changedName,
+} from '@features/constructor/model/pizzaConstructor';
+import { useStore } from 'effector-react';
 import style from './Pizza.module.scss';
 
 type PizzaProps = {};
 
 export const Pizza: FC<PizzaProps> = ({}) => {
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [sauce] = useState('tomato');
-  const [size] = useState('big');
+  const { name, sauce, size, price } = useStore($pizzaConstructor);
+  const isReady = useStore($isReady);
+  const ingredients = useStore($ingredientsTypes);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    changedName(e.target.value);
   };
 
   return (
@@ -27,8 +33,18 @@ export const Pizza: FC<PizzaProps> = ({}) => {
       />
 
       <div className={style.content__constructor}>
-        <div className={`${style.pizza} ${style[`pizza--foundation--${size}-${sauce}`]}`}>
-          <Fillings ingredients={['chile', 'chile', 'chile']} />
+        <div
+          className={`${style.pizza} ${
+            style[
+              `pizza--foundation--${
+                size?.type === 'big' || size?.type === 'small'
+                  ? size?.type
+                  : 'big'
+              }-${sauce?.type}`
+            ]
+          }`}
+        >
+          <Fillings ingredients={ingredients} />
         </div>
       </div>
 
@@ -37,7 +53,7 @@ export const Pizza: FC<PizzaProps> = ({}) => {
         <button
           type="button"
           className="button"
-          disabled
+          disabled={!isReady}
         >
           Готовьте!
         </button>

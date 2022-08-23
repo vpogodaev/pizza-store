@@ -3,6 +3,7 @@ import { Sheet } from '@shared/ui/components';
 import { Size } from '@features/constructor/ui/size/Size/Size';
 import { useStore } from 'effector-react';
 import { $sizes, Size as TSize } from '@entities/pizza/model/size';
+import { chosenSize } from '@features/constructor/model/pizzaConstructor';
 import style from './SizeCard.module.scss';
 
 type SizeCardProps = {};
@@ -11,7 +12,7 @@ export const SizeCard: FC<SizeCardProps> = ({}) => {
   const sizes = useStore($sizes);
 
   const handleSizeChanged = (size: TSize) => {
-    console.log('handleSizeChanged', size);
+    chosenSize(size);
   };
 
   const sizesToRender = sizes.map((size) => {

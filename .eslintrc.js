@@ -39,5 +39,6 @@ module.exports = {
     'arrow-body-style': 'warn',
     'jsx-a11y/label-has-associated-control': 'warn',
     'jsx-a11y/anchor-is-valid': 'warn',
+    'no-plusplus': 'off',
   },
 };
