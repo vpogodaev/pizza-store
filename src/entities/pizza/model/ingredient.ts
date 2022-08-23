@@ -1,6 +1,5 @@
 import { getIngredients } from '@shared/api/modules/ingredients';
-import { createEffect, createStore, forward } from 'effector';
-import { createGate } from 'effector-react';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 
 export type IngredientType =
   | 'ananas'
@@ -26,14 +25,12 @@ export type Ingredient = {
   type: IngredientType;
 };
 
-const getIngredientsFx = createEffect(
-  async () => await getIngredients(),
-);
+const getIngredientsFx = createEffect(async () => await getIngredients());
+export const readyToLoadIngredients = createEvent();
+
 export const $ingredients = createStore<Ingredient[]>([]).on(
   getIngredientsFx.doneData,
   (_, ingredients) => ingredients,
 );
 
-export const IngredientsGate = createGate();
-
-forward({ from: IngredientsGate.state, to: getIngredientsFx });
+sample({ clock: readyToLoadIngredients, target: getIngredientsFx });

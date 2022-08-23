@@ -1,0 +1,1 @@
+export { getSizes } from './endpoints';
