@@ -3,16 +3,18 @@ import { $doughs, Dough } from '@entities/pizza/model/dough';
 import { $sizes, Size } from '@entities/pizza/model/size';
 import { $sauces, Sauce } from '@entities/pizza/model/sauce';
 import { Ingredient, IngredientType } from '@entities/pizza/model/ingredient';
+import { addedPizza } from '@entities/cart/model/cart';
+import { Pizza } from '@entities/pizza/model/pizza';
 
 type PizzaConstructorIngredients = Record<IngredientType, [number, Ingredient]>;
 
 type IngredientsCount = Record<IngredientType, number>;
 
 type PizzaConstructor = {
-  dough?: Dough;
-  size?: Size;
-  sauce?: Sauce;
-  ingredients?: PizzaConstructorIngredients;
+  dough: Dough | null;
+  size: Size | null;
+  sauce: Sauce | null;
+  ingredients: PizzaConstructorIngredients | null;
   name: string;
   price: number;
 };
@@ -23,6 +25,8 @@ export const chosenDough = createEvent<Dough>();
 export const chosenSauce = createEvent<Sauce>();
 export const chosenSize = createEvent<Size>();
 export const changedName = createEvent<string>();
+
+export const cookClicked = createEvent<Pizza>();
 
 export const ingredientCountChanged = createEvent<{
   count: number;
