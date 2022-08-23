@@ -1,25 +1,11 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Counter } from '@shared/ui/components';
+import { IngredientType } from '@entities/pizza/model/ingredient';
 import style from './Ingredient.module.scss';
 
 type IngredientProps = {
   title: string;
-  type:
-    | 'ananas'
-    | 'bacon'
-    | 'blueCheese'
-    | 'cheddar'
-    | 'chile'
-    | 'ham'
-    | 'jalapeno'
-    | 'mozzarella'
-    | 'mushrooms'
-    | 'olives'
-    | 'onion'
-    | 'parmesan'
-    | 'salami'
-    | 'salmon'
-    | 'tomatoes';
+  type: IngredientType;
 };
 
 export const Ingredient: FC<IngredientProps> = ({ title, type }) => {

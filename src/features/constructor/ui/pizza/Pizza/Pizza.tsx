@@ -28,7 +28,7 @@ export const Pizza: FC<PizzaProps> = ({}) => {
 
       <div className={style.content__constructor}>
         <div className={`${style.pizza} ${style[`pizza--foundation--${size}-${sauce}`]}`}>
-          <Fillings ingredients={['ananas', 'bacon', 'cheddar']} />
+          <Fillings ingredients={['chile', 'chile', 'chile']} />
         </div>
       </div>
 

@@ -1,23 +1,9 @@
 import React, { FC } from 'react';
+import { IngredientType } from '@entities/pizza/model/ingredient';
 import style from './Filling.module.scss';
 
 type FillingProps = {
-  type:
-    | 'ananas'
-    | 'bacon'
-    | 'blueCheese'
-    | 'cheddar'
-    | 'chile'
-    | 'ham'
-    | 'jalapeno'
-    | 'mozzarella'
-    | 'mushrooms'
-    | 'olives'
-    | 'onion'
-    | 'parmesan'
-    | 'salami'
-    | 'salmon'
-    | 'tomatoes';
+  type: IngredientType;
   second?: boolean;
   third?: boolean;
 };

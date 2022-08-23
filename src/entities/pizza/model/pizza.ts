@@ -18,3 +18,7 @@ const getPizzaPrice = ({ dough, sauce, size, ingredients }: Pizza) => {
            ingredientsPrice + sauce.price + dough.price
          ) * size.multiplier;
 };
+//
+// const pizzaCooked = createEvent<Pizza>()
+//
+// const $pizza = createStore(null).on(pizzaCooked, (_, newPizza) => newPizza);

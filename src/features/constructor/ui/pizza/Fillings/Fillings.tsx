@@ -1,25 +1,10 @@
 import React, { FC, useMemo } from 'react';
 import { Filling } from '@features/constructor/ui/pizza/Filling/Filling';
+import { IngredientType } from '@entities/pizza/model/ingredient';
 import style from './Fillings.module.scss';
 
 type FillingsProps = {
-  ingredients: (
-    | 'ananas'
-    | 'bacon'
-    | 'blueCheese'
-    | 'cheddar'
-    | 'chile'
-    | 'ham'
-    | 'jalapeno'
-    | 'mozzarella'
-    | 'mushrooms'
-    | 'olives'
-    | 'onion'
-    | 'parmesan'
-    | 'salami'
-    | 'salmon'
-    | 'tomatoes'
-  )[];
+  ingredients: IngredientType[];
 };
 
 export const Fillings: FC<FillingsProps> = ({ ingredients }) => {

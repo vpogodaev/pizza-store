@@ -1,10 +1,11 @@
 import React, { FC, MouseEventHandler } from 'react';
+import { DoughType } from '@entities/pizza/model/dough';
 import style from './Dough.module.scss';
 
 type DoughProps = {
   title: string;
   description: string;
-  type: 'light' | 'large';
+  type: DoughType;
   onClick: MouseEventHandler<HTMLInputElement>;
   defaultChecked?: boolean;
 };

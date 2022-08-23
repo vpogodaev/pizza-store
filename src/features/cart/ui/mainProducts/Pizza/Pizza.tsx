@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useMemo, useState } from 'react';
-import pizzaImg from '@app/../../../../shared/ui/assets/img/product.svg';
+import pizzaImg from '@shared/ui/assets/img/product.svg';
 import { Counter } from '@shared/ui/components';
 import style from './Pizza.module.scss';
 
