@@ -6,7 +6,7 @@ import style from './TotalPrice.module.scss';
 type TotalPriceProps = {};
 
 export const TotalPrice: FC<TotalPriceProps> = ({}) => {
-  const totalPrice = useStore($totalPrice)
+  const totalPrice = useStore($totalPrice);
 
   const price = `${totalPrice} ₽`;
   return (
