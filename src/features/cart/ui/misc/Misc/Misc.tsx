@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, FC, useState } from 'react';
 import { Counter, HeadlessSheet } from '@shared/ui/components';
 import style from './Misc.module.scss';
 
@@ -6,22 +6,23 @@ type MiscProps = {
   title: string;
   imgSrc: string;
   price: string;
+  count: number;
+  onPlusClicked: () => void;
+  onMinusClicked: () => void;
+  canMinus: boolean;
+  onCountChanged: ChangeEventHandler<HTMLInputElement>;
 };
 
-export const Misc: FC<MiscProps> = ({ title, imgSrc, price }) => {
-  const [count, setCount] = useState(0);
-
-  const handleCountChangeClicked = (newValue: number) => {
-    setCount(newValue);
-  };
-
-  const handleCountChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = +e.target.value;
-    if (Number.isInteger(newValue)) {
-      setCount(newValue);
-    }
-  };
-
+export const Misc: FC<MiscProps> = ({
+  title,
+  imgSrc,
+  price,
+  count,
+  onMinusClicked,
+  onPlusClicked,
+  onCountChanged,
+  canMinus,
+}) => {
   return (
     <HeadlessSheet
       as="li"
@@ -40,10 +41,11 @@ export const Misc: FC<MiscProps> = ({ title, imgSrc, price }) => {
       <div className={style['additional-list__wrapper']}>
         <Counter
           value={count}
-          onMinusClicked={() => handleCountChangeClicked(count - 1)}
-          onPlusClicked={() => handleCountChangeClicked(count + 1)}
-          onValueChanged={handleCountChanged}
+          onMinusClicked={onMinusClicked}
+          onPlusClicked={onPlusClicked}
+          onValueChanged={onCountChanged}
           extraClassName={style['additional-list__counter']}
+          minusDisabled={canMinus}
           color="orange"
         />
 

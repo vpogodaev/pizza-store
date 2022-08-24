@@ -1,39 +1,51 @@
-import React, { FC } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { Misc } from '@features/cart/ui/misc/Misc/Misc';
-import cola from '@shared/ui/assets/img/cola.svg';
-import sauce from '@shared/ui/assets/img/sauce.svg';
-import potato from '@shared/ui/assets/img/potato.svg';
+import { useStore } from 'effector-react';
+import {
+  $miscListProduct,
+  $miscProductsCount,
+  addedMisc,
+  removedMisc,
+} from '@entities/cart/model/cart';
+import { miscImg } from '@features/cart/model/miscImg';
+import { $miscList, Misc as TMisc } from '@entities/product/model/misc';
 import style from './MiscList.module.scss';
 
 type MiscListProps = {};
 
-const misc = [
-  {
-    title: 'Coca-Cola 0,5 литра',
-    img: cola,
-    price: '× 56 ₽',
-  },
-  {
-    title: 'Острый соус',
-    img: sauce,
-    price: '× 30 ₽',
-  },
-  {
-    title: 'Картошка из печи',
-    img: potato,
-    price: '× 56 ₽',
-  },
-];
-
 export const MiscList: FC<MiscListProps> = ({}) => {
-  const productsToRender = misc.map(({ title, img, price }, i) => (
-    <Misc
-      title={title}
-      imgSrc={img}
-      price={price}
-      key={i.toString()}
-    />
-  ));
+  const miscList = useStore($miscList);
+  const miscCount = useStore($miscProductsCount);
+
+  const handlePlusClicked = (misc: TMisc) => {
+    addedMisc(misc);
+  };
+  const handleMinusClicked = (misc: TMisc) => {
+    removedMisc(misc);
+  };
+  const handleCountChanged = (
+    e: ChangeEvent<HTMLInputElement>,
+    misc: TMisc,
+  ) => {};
+
+  const productsToRender = miscList.map((m, i) => {
+    const price = `${m.price} ₽`;
+    const canMinus = !Boolean(miscCount[m.type]);
+
+    return (
+      <Misc
+        title={m.name}
+        imgSrc={miscImg[m.type]}
+        price={price}
+        onMinusClicked={() => handleMinusClicked(m)}
+        onPlusClicked={() => handlePlusClicked(m)}
+        onCountChanged={(e) => handleCountChanged(e, m)}
+        count={miscCount[m.type] || 0}
+        canMinus={canMinus}
+        key={i.toString()}
+      />
+    );
+  });
 
   return (
     <div className={style.cart__additional}>

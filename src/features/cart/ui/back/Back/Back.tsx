@@ -1,4 +1,6 @@
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
+import { paths } from '@pages/paths';
 import style from './Back.module.scss';
 
 type BackProps = {};
@@ -6,12 +8,12 @@ type BackProps = {};
 export const Back: FC<BackProps> = ({}) => (
   <>
     <div className={style.footer__more}>
-      <a
-        href="@features/cart/ui/back/Back/Back#"
+      <Link
+        to={paths.constructor()}
         className="button button--border button--arrow"
       >
         Хочу еще одну
-      </a>
+      </Link>
     </div>
     <p className="footer__text">
       Перейти к конструктору

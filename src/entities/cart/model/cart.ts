@@ -1,40 +1,79 @@
 import { Pizza } from '@entities/pizza/model/pizza';
-import { Misc } from '@entities/product/model/misc';
-import { combine, createEvent, createStore, sample } from 'effector';
+import { Misc, MiscType } from '@entities/product/model/misc';
+import { combine, createEvent, createStore, merge, sample } from 'effector';
+import { watch } from 'fs';
 
-type Cart = {
-  pizzas: Pizza[];
-  miscList: Misc[];
-  totalPrice: number;
-};
+type PizzasCount = Record<string, number>;
+type MiscCount = Record<MiscType, number>;
 
+// Pizza
 export const addedPizza = createEvent<Pizza>();
+export const removedPizza = createEvent<Pizza>();
+
+export const $pizzasProduct = createStore<Pizza[]>([])
+  .on(addedPizza, (state, pizza) => [...state, pizza])
+  .on(removedPizza, (state, pizza) => {
+    const index = state.findIndex((p) => p.name === pizza.name);
+    return [...state.slice(0, index), ...state.slice(index + 1)];
+  });
+
+export const $pizzasProductsCount = $pizzasProduct.map<PizzasCount>(
+  (pizzas) => {
+    const pizzasCount: PizzasCount = {};
+    pizzas.forEach((p) => {
+      pizzasCount[p.name] = pizzasCount[p.name] + 1 || 1;
+    });
+    return pizzasCount;
+  },
+);
+
+// TODO: remove
+$pizzasProductsCount.watch((state) =>
+  console.log('$pizzasProductsCount.watch', state),
+);
+
+// Misc
 export const addedMisc = createEvent<Misc>();
+export const removedMisc = createEvent<Misc>();
+
+export const $miscListProduct = createStore<Misc[]>([])
+  .on(addedMisc, (state, misc) => [...state, misc])
+  .on(removedMisc, (state, misc) => {
+    const index = state.findIndex((m) => m.type === misc.type);
+    return [...state.slice(0, index), ...state.slice(index + 1)];
+  });
+
+export const $miscProductsCount = $miscListProduct.map<MiscCount>(
+  (miscList) => {
+    const miscCount: MiscCount = {} as MiscCount;
+    miscList.forEach(({ type }) => {
+      miscCount[type] = miscCount[type] + 1 || 1;
+    });
+    return miscCount;
+  },
+);
+
+$miscProductsCount.watch((state) =>
+  console.log('$miscProductsCount.watch', state),
+);
+
+// Price
 const calculatedPrice = createEvent<number>();
 
-const $pizzasProduct = createStore<Pizza[]>([]).on(
+const priceChangeEvents = merge([
   addedPizza,
-  (state, pizza) => [...state, pizza],
-);
-
-const $miscListProduct = createStore<Misc[]>([]).on(
+  removedPizza,
   addedMisc,
-  (state, misc) => [...state, misc],
-);
+  removedMisc,
+]);
 
-const $totalPrice = createStore<number>(0).on(
+export const $totalPrice = createStore<number>(0).on(
   calculatedPrice,
   (_, totalPrice) => totalPrice,
 );
 
-const $cart = combine({
-  pizzas: $pizzasProduct,
-  miscList: $miscListProduct,
-  totalPrice: $totalPrice,
-});
-
 sample({
-  clock: [addedPizza, addedMisc],
+  clock: priceChangeEvents,
   source: {
     pizzas: $pizzasProduct,
     miscList: $miscListProduct,
@@ -47,3 +86,11 @@ sample({
   },
   target: calculatedPrice,
 });
+
+export const pizzaChangedClicked = createEvent<Pizza>();
+
+sample({
+  clock: pizzaChangedClicked,
+  fn: (pizza) => pizza,
+
+})

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useMemo, useState } from 'react';
+import React, { ChangeEventHandler, FC, useMemo } from 'react';
 import pizzaImg from '@shared/ui/assets/img/product.svg';
 import { Counter } from '@shared/ui/components';
 import style from './Pizza.module.scss';
@@ -7,22 +7,21 @@ type PizzaProps = {
   title: string;
   info: string[];
   price: string;
+  count: number;
+  onPlusClicked: () => void;
+  onMinusClicked: () => void;
+  onCountChanged: ChangeEventHandler<HTMLInputElement>;
 };
 
-export const Pizza: FC<PizzaProps> = ({ title, info, price }) => {
-  const [count, setCount] = useState(0);
-
-  const handleCountChangeClicked = (newValue: number) => {
-    setCount(newValue);
-  };
-
-  const handleCountChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = +e.target.value;
-    if (Number.isInteger(newValue)) {
-      setCount(newValue);
-    }
-  };
-
+export const Pizza: FC<PizzaProps> = ({
+  title,
+  info,
+  price,
+  count,
+  onCountChanged,
+  onMinusClicked,
+  onPlusClicked,
+}) => {
   const infoToRender = useMemo(
     () => info.map((item, i) => <li key={i.toString()}>{item}</li>),
     [info],
@@ -46,9 +45,9 @@ export const Pizza: FC<PizzaProps> = ({ title, info, price }) => {
 
       <Counter
         value={count}
-        onMinusClicked={() => handleCountChangeClicked(count - 1)}
-        onPlusClicked={() => handleCountChangeClicked(count + 1)}
-        onValueChanged={handleCountChanged}
+        onMinusClicked={onMinusClicked}
+        onPlusClicked={onPlusClicked}
+        onValueChanged={onCountChanged}
         extraClassName={style['cart-list__counter']}
         color="orange"
       />

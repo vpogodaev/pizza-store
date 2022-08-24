@@ -9,6 +9,7 @@ import {
   $ingredientsTypes,
   $isReady,
   changedName,
+  cookClicked
 } from '@features/constructor/model/pizzaConstructor';
 import { useStore } from 'effector-react';
 import { addedPizza } from '@entities/cart/model/cart';
@@ -21,6 +22,8 @@ export const Pizza: FC<PizzaProps> = ({}) => {
   const sauce = useStore($constructorSauce);
   const size = useStore($constructorSize);
   const price = useStore($constructorPrice);
+  
+  const history = useHistory();
 
   const isReady = useStore($isReady);
   const ingredients = useStore($ingredientsTypes);
@@ -30,7 +33,8 @@ export const Pizza: FC<PizzaProps> = ({}) => {
   };
 
   const handleCookClicked = () => {
-    // addedPizza();
+    cookClicked();
+    history.push(paths.cart());
   };
 
   return (

@@ -11,11 +11,11 @@ export type Misc = {
 };
 
 const getMiscFx = createEffect(async () => await getMisc());
-export const readyToLoadMiscs = createEvent();
+export const readyToLoadMiscList = createEvent();
 
-export const $miscs = createStore<Misc[]>([]).on(
+export const $miscList = createStore<Misc[]>([]).on(
   getMiscFx.doneData,
   (_, miscs) => miscs,
 );
 
-sample({ clock: readyToLoadMiscs, target: getMiscFx });
+sample({ clock: readyToLoadMiscList, target: getMiscFx });
