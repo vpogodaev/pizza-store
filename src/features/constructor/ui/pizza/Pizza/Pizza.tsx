@@ -12,7 +12,8 @@ import {
   cookClicked
 } from '@features/constructor/model/pizzaConstructor';
 import { useStore } from 'effector-react';
-import { addedPizza } from '@entities/cart/model/cart';
+import { useHistory } from 'react-router';
+import { paths } from '@pages/paths';
 import style from './Pizza.module.scss';
 
 type PizzaProps = {};
